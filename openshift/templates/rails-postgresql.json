@@ -149,8 +149,7 @@
         "name": "${NAME}",
         "annotations": {
           "description": "Defines how to deploy the application server",
-          "template.alpha.openshift.io/wait-for-ready": "true",
- 	  "com.illumio.pairing_key":"17c4320af6938325ed82908d10b4f69804fb15de8ec27c237aa5ee2a438ff2ff33211ee613b8e54e2"
+          "template.alpha.openshift.io/wait-for-ready": "true"
         }
       },
       "spec": {

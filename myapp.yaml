@@ -1,0 +1,153 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: ruby-hello-world
+    name: ruby-22-centos7
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: centos/ruby-22-centos7
+      from:
+        kind: DockerImage
+        name: centos/ruby-22-centos7
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: ruby-hello-world
+    name: ruby-hello-world
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: ruby-hello-world
+    name: ruby-hello-world
+  spec:
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ruby-hello-world:latest
+    postCommit: {}
+    resources: {}
+    source:
+      git:
+        uri: https://github.com/openshift/ruby-hello-world
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: ruby-22-centos7:latest
+      type: Docker
+    triggers:
+    - github:
+        secret: oM8CQc3N3MxLLpmWsZ-X
+      type: GitHub
+    - generic:
+        secret: cEPXga5mKeFHq5SKmHhz
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: ruby-hello-world
+    name: ruby-hello-world
+  spec:
+    replicas: 1
+    selector:
+      app: ruby-hello-world
+      deploymentconfig: ruby-hello-world
+    strategy:
+      resources: {}
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+          com.illumio.pairing_key: 1ba993a13c4e50419cfae4352ec6bfbe51a9e095cb61d50a98e510d89c9e3c8daa2e367b796bed679
+        creationTimestamp: null
+        labels:
+          app: ruby-hello-world
+          deploymentconfig: ruby-hello-world
+      spec:
+        containers:
+        - image: ruby-hello-world:latest
+          name: ruby-hello-world
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ruby-hello-world
+        from:
+          kind: ImageStreamTag
+          name: ruby-hello-world:latest
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: ruby-hello-world
+    name: ruby-hello-world
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: ruby-hello-world
+      deploymentconfig: ruby-hello-world
+  status:
+    loadBalancer: {}
+kind: List
+metadata: {}

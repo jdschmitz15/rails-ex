@@ -1,0 +1,130 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: rails-ex
+    name: rails-ex
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: rails-ex
+    name: rails-ex
+  spec:
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: rails-ex:latest
+    postCommit: {}
+    resources: {}
+    source:
+      git:
+        ref: master
+        uri: https://github.com/jdschmitz15/rails-ex.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: ruby:2.5
+          namespace: openshift
+      type: Source
+    triggers:
+    - github:
+        secret: KLB9lF3Xo3e5XMjYyrjK
+      type: GitHub
+    - generic:
+        secret: KPvkNiNkdhbYp2Zroc5e
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: rails-ex
+    name: rails-ex
+  spec:
+    replicas: 1
+    selector:
+      app: rails-ex
+      deploymentconfig: rails-ex
+    strategy:
+      resources: {}
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+          com.illumio.pairing_key: 17c4320af6938325ed82908d10b4f69804fb15de8ec27c237aa5ee2a438ff2ff33211ee613b8e54e2
+        creationTimestamp: null
+        labels:
+          app: rails-ex
+          deploymentconfig: rails-ex
+      spec:
+        containers:
+        - image: rails-ex:latest
+          name: rails-ex
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - rails-ex
+        from:
+          kind: ImageStreamTag
+          name: rails-ex:latest
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: rails-ex
+    name: rails-ex
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: rails-ex
+      deploymentconfig: rails-ex
+  status:
+    loadBalancer: {}
+kind: List
+metadata: {}
