@@ -13,7 +13,6 @@
       "openshift.io/documentation-url": "https://github.com/sclorg/rails-ex",
       "openshift.io/support-url": "https://access.redhat.com",
       "template.openshift.io/bindable": "false",
-	"com.illumio.pairing_key":"17c4320af6938325ed82908d10b4f69804fb15de8ec27c237aa5ee2a438ff2ff33211ee613b8e54e2"	
     }
   },
   "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/rails-ex/blob/master/README.md.",
@@ -150,7 +149,8 @@
         "name": "${NAME}",
         "annotations": {
           "description": "Defines how to deploy the application server",
-          "template.alpha.openshift.io/wait-for-ready": "true"
+          "template.alpha.openshift.io/wait-for-ready": "true",
+ 	  "com.illumio.pairing_key":"17c4320af6938325ed82908d10b4f69804fb15de8ec27c237aa5ee2a438ff2ff33211ee613b8e54e2"
         }
       },
       "spec": {
